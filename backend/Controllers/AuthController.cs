@@ -2,7 +2,7 @@
 using Student_course_enrollment.Models;
 using Student_course_enrollment.Services;
 
-namespace Studentcourseenrollment.Controllers
+namespace Student_course_enrollment.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
