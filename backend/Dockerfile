@@ -25,4 +25,4 @@ ENV DOTNET_RUNNING_IN_CONTAINER=true
 EXPOSE 5000
 
 # Run the app
-ENTRYPOINT ["dotnet", "Student_course_enrollment.dll"]
+ENTRYPOINT ["dotnet", "Studentcourseenrollment.dll"]
