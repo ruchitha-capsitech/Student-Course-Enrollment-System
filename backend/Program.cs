@@ -8,14 +8,15 @@ using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Load MongoDB settings from appsettings.json
+// Bind DatabaseSettings from appsettings.json
 builder.Services.Configure<DatabaseSettings>(
     builder.Configuration.GetSection("DatabaseSettings"));
 
+// Register as interface to allow loose coupling
 builder.Services.AddSingleton<IDatabaseSettings>(sp =>
     sp.GetRequiredService<IOptions<DatabaseSettings>>().Value);
 
-// Register services
+// Register application services
 builder.Services.AddSingleton<StudentService>();
 builder.Services.AddSingleton<CourseService>();
 builder.Services.AddSingleton<EnrollmentService>();
@@ -24,43 +25,42 @@ builder.Services.AddSingleton<UserService>();
 // Add controllers
 builder.Services.AddControllers();
 
-// Add Swagger for API testing
+// Register Swagger services
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Enable CORS for frontend
+// Allow any origin (you can restrict this later for production)
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll",
-        policy => policy
-            .AllowAnyOrigin()
-            .AllowAnyMethod()
-            .AllowAnyHeader());
+    options.AddPolicy("AllowAll", policy =>
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader());
 });
 
 var app = builder.Build();
 
-// Enable Swagger UI in development
+// Enable Swagger UI in development only
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-// Enable HTTPS redirection
+// Redirect HTTP to HTTPS
 app.UseHttpsRedirection();
 
 // Enable CORS
 app.UseCors("AllowAll");
 
-// Use authorization if needed
+// Use Authorization (you can add Authentication later if needed)
 app.UseAuthorization();
 
-// Map controller endpoints
+// Map controllers
 app.MapControllers();
 
+// Run the application
 app.Run();
-
 
 
 
