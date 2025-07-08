@@ -45,6 +45,7 @@ builder.Services.AddSingleton<StudentService>();
 builder.Services.AddSingleton<CourseService>();
 builder.Services.AddSingleton<EnrollmentService>();
 builder.Services.AddSingleton<UserService>();
+builder.Services.AddSingleton<TokenService>();
 
 // Add controllers
 builder.Services.AddControllers();
