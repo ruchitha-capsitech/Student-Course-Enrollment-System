@@ -10,9 +10,9 @@ namespace Student_course_enrollment.Models
         public string Id { get; set; } = ObjectId.GenerateNewId().ToString();
 
         [BsonElement("username")]
-        public string Username { get; set; } = null!;
+        public string username { get; set; } = null!;
 
         [BsonElement("password")]
-        public string Password { get; set; } = null!;
+        public string password { get; set; } = null!;
     }
 }
