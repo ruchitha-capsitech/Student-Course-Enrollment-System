@@ -43,7 +43,7 @@ public async Task<IActionResult> Login([FromBody] User loginUser)
         return StatusCode(500, "Internal server error.");
     }
 }
-
+}}
     // Move LoginRequest outside the controller
     public class LoginRequest
     {
