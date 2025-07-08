@@ -1,7 +1,7 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace Student_course_enrollment.Models
+namespace Studentcourseenrollment.Models
 {
     public class User
     {
