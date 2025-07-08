@@ -12,15 +12,15 @@ namespace Student_course_enrollment.Services
             _users = database.GetCollection<User>("Users");
         }
         //to check whether user is there or not
-        public async Task<User?> GetByUsernameAsync(string username)
+        public async Task<User?> GetByUsernameAsync(string Username)
         {
-            return await _users.Find(u => u.Username == username).FirstOrDefaultAsync();
+            return await _users.Find(u => u.Username == Username).FirstOrDefaultAsync();
         }
         //FOR VALIDATION
-        public async Task<bool> ValidateCredentialsAsync(string username, string password)
+        public async Task<bool> ValidateCredentialsAsync(string Username, string Password)
         {
-            var user = await GetByUsernameAsync(username);
-            return user != null && user.Password == password;
+            var user = await GetByUsernameAsync(Username);
+            return user != null && user.Password == Password;
         }
         //OPTIONAL TO CREATE USER 
         public async Task CreateUserAsync(User user)
