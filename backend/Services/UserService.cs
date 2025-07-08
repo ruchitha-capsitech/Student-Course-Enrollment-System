@@ -1,7 +1,7 @@
 ﻿using MongoDB.Driver;
 using Student_course_enrollment.Models;
 
-namespace Student_course_enrollment.Services
+namespace Studentcourseenrollment.Services
 {
     public class UserService
     {
