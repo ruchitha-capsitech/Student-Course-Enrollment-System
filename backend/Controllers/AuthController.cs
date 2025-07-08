@@ -34,14 +34,17 @@ namespace Student_course_enrollment.Controllers
                 return Ok(new { token, userId = user.Id });
             }
             catch (Exception ex)
-            {
-                return StatusCode(500, new
-                {
-                    message = "Internal server error",
-                    error = ex.Message,
-                    stackTrace = ex.StackTrace
-                });
-            }
+{
+    Console.WriteLine("Exception: " + ex.Message);
+    Console.WriteLine("StackTrace: " + ex.StackTrace);
+    return StatusCode(500, new
+    {
+        message = "Internal server error",
+        error = ex.Message,
+        stackTrace = ex.StackTrace
+    });
+}
+
         }
     }
 
