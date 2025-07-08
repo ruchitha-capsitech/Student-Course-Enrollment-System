@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Student_course_enrollment.Models;
 using Student_course_enrollment.Services;
 
@@ -16,31 +16,33 @@ namespace Student_course_enrollment.Controllers
             _userService = userService;
             _tokenService = tokenService;
         }
-        //Login Method [POST]
-       [HttpPost("login")]
-public async Task<IActionResult> Login([FromBody] LoginRequest request)
-{
-    try
-    {
-        var user = await _userService.GetByUsernameAsync(request.Username);
-        if (user == null || user.Password != request.Password)
-            return Unauthorized(new { message = "Invalid credentials" });
 
-        var token = _tokenService.CreateToken(user);
-        return Ok(new { token, userId = user.Id });
-    }
-    catch (Exception ex)
-    {
-        return StatusCode(500, new
+        // Login Method [POST]
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
-            message = "Internal server error",
-            error = ex.Message,
-            stackTrace = ex.StackTrace
-        });
-    }
-}
+            try
+            {
+                var user = await _userService.GetByUsernameAsync(request.Username);
+                if (user == null || user.Password != request.Password)
+                    return Unauthorized(new { message = "Invalid credentials" });
 
+                var token = _tokenService.CreateToken(user);
+                return Ok(new { token, userId = user.Id });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new
+                {
+                    message = "Internal server error",
+                    error = ex.Message,
+                    stackTrace = ex.StackTrace
+                });
+            }
+        }
+    } // 👈 This closing brace was missing
 
+    // Should be defined outside the controller
     public class LoginRequest
     {
         public string Username { get; set; } = null!;
