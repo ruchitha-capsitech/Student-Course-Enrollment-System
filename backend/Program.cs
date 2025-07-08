@@ -41,11 +41,14 @@ builder.Services.AddCors(options =>
 var app = builder.Build();
 
 // Enable Swagger UI in development only
-if (app.Environment.IsDevelopment())
+// Enable Swagger in all environments
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Student API V1");
+    c.RoutePrefix = "swagger"; // so URL is /swagger/index.html
+});
+
 
 // Redirect HTTP to HTTPS
 app.UseHttpsRedirection();
@@ -58,6 +61,7 @@ app.UseAuthorization();
 
 // Map controllers
 app.MapControllers();
+app.MapGet("/", () => "Student Course Enrollment API is running.");
 
 // Run the application
 app.Run();
