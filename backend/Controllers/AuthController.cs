@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Student_course_enrollment.Models;
 using Student_course_enrollment.Services;
+using MongoDB.Driver;
 
 namespace Student_course_enrollment.Controllers
 {
@@ -18,36 +19,38 @@ namespace Student_course_enrollment.Controllers
         }
 
         // Login Method [POST]
-       [HttpPost("login")]
-public async Task<IActionResult> Login([FromBody] User loginUser)
-{
-    try
-    {
-        var user = await _userCollection
-            .Find(u => u.Username == loginUser.Username && u.Password == loginUser.Password)
-            .FirstOrDefaultAsync();
-
-        if (user == null)
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginRequest loginUser)
         {
-            Console.WriteLine("User not found or invalid credentials.");
-            return Unauthorized("Invalid username or password.");
-        }
+            try
+            {
+                var userCollection = _userService.GetUserCollection(); // Get the collection
+                var user = await userCollection
+                    .Find(u => u.Username == loginUser.Username && u.Password == loginUser.Password)
+                    .FirstOrDefaultAsync();
 
-        Console.WriteLine("User found: " + user.Username);
-        var token = _jwtService.GenerateToken(user);
-        return Ok(new { token });
-    }
-    catch (Exception ex)
-    {
-        Console.WriteLine("Login error: " + ex.Message);
-        return StatusCode(500, "Internal server error.");
+                if (user == null)
+                {
+                    Console.WriteLine("User not found or invalid credentials.");
+                    return Unauthorized("Invalid username or password.");
+                }
+
+                Console.WriteLine("User found: " + user.Username);
+                var token = _tokenService.GenerateToken(user);
+                return Ok(new { token });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Login error: " + ex.Message);
+                return StatusCode(500, "Internal server error.");
+            }
+        }
     }
 }
-}}
-    // Move LoginRequest outside the controller
-    public class LoginRequest
-    {
-        public string Username { get; set; } = null!;
-        public string Password { get; set; } = null!;
-    }
 
+// LoginRequest class (outside controller)
+public class LoginRequest
+{
+    public string Username { get; set; } = null!;
+    public string Password { get; set; } = null!;
+}
