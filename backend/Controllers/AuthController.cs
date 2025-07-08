@@ -18,35 +18,31 @@ namespace Student_course_enrollment.Controllers
         }
 
         // Login Method [POST]
-        [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginRequest request)
-        {
-            try
-            {
-                var user = await _userService.GetByUsernameAsync(request.Username);
-                if (user == null)
-                    return Unauthorized(new { message = "User not found" });
-
-                if (user.Password != request.Password)
-                    return Unauthorized(new { message = "Invalid password" });
-
-                var token = _tokenService.CreateToken(user);
-                return Ok(new { token, userId = user.Id });
-            }
-            catch (Exception ex)
+       [HttpPost("login")]
+public async Task<IActionResult> Login([FromBody] User loginUser)
 {
-    Console.WriteLine("Exception: " + ex.Message);
-    Console.WriteLine("StackTrace: " + ex.StackTrace);
-    return StatusCode(500, new
+    try
     {
-        message = "Internal server error",
-        error = ex.Message,
-        stackTrace = ex.StackTrace
-    });
-}
+        var user = await _userCollection
+            .Find(u => u.Username == loginUser.Username && u.Password == loginUser.Password)
+            .FirstOrDefaultAsync();
 
+        if (user == null)
+        {
+            Console.WriteLine("User not found or invalid credentials.");
+            return Unauthorized("Invalid username or password.");
         }
+
+        Console.WriteLine("User found: " + user.Username);
+        var token = _jwtService.GenerateToken(user);
+        return Ok(new { token });
     }
+    catch (Exception ex)
+    {
+        Console.WriteLine("Login error: " + ex.Message);
+        return StatusCode(500, "Internal server error.");
+    }
+}
 
     // Move LoginRequest outside the controller
     public class LoginRequest
