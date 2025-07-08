@@ -50,4 +50,4 @@ public async Task<IActionResult> Login([FromBody] User loginUser)
         public string Username { get; set; } = null!;
         public string Password { get; set; } = null!;
     }
-}
+
