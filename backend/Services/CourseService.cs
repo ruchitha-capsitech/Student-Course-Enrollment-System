@@ -2,7 +2,7 @@
 using Student_course_enrollment.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-namespace Course_course_enrollment.Services
+namespace Student_course_enrollment.Services
 {
     public class CourseService
     {
