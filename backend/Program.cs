@@ -13,8 +13,8 @@ builder.Services.Configure<DatabaseSettings>(
     builder.Configuration.GetSection("DatabaseSettings"));
 
 // Register as interface to allow loose coupling
-builder.Services.AddSingleton<IDatabaseSettings>(sp =>
-    sp.GetRequiredService<IOptions<DatabaseSettings>>().Value);
+builder.Services.AddSingleton<IMongoDbSettings>(sp =>
+    sp.GetRequiredService<IOptions<MongoDbSettings>>().Value);
 
 // Register application services
 builder.Services.AddSingleton<StudentService>();
