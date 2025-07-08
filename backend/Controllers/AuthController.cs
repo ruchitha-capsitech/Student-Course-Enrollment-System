@@ -17,17 +17,29 @@ namespace Student_course_enrollment.Controllers
             _tokenService = tokenService;
         }
         //Login Method [POST]
-        [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginRequest request)
-        {
-            var user = await _userService.GetByUsernameAsync(request.Username);
-            if (user == null || user.Password != request.Password)
-                return Unauthorized(new { message = "Invalid credentials" });
+       [HttpPost("login")]
+public async Task<IActionResult> Login([FromBody] LoginRequest request)
+{
+    try
+    {
+        var user = await _userService.GetByUsernameAsync(request.Username);
+        if (user == null || user.Password != request.Password)
+            return Unauthorized(new { message = "Invalid credentials" });
 
-            var token = _tokenService.CreateToken(user);
-            return Ok(new { token, userId = user.Id });
-        }
+        var token = _tokenService.CreateToken(user);
+        return Ok(new { token, userId = user.Id });
     }
+    catch (Exception ex)
+    {
+        return StatusCode(500, new
+        {
+            message = "Internal server error",
+            error = ex.Message,
+            stackTrace = ex.StackTrace
+        });
+    }
+}
+
 
     public class LoginRequest
     {
