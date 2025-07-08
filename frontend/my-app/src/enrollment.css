@@ -1,0 +1,123 @@
+
+.enrollment-container {
+    background-image: url(https://static.vecteezy.com/system/resources/thumbnails/033/351/258/small_2x/beautiful-bright-wallpaper-nature-background-ai-generated-photo.jpg);
+  max-width: 100%;
+  margin: auto;
+  padding: 20px;
+  /* background: #b2b8ee; */
+  border-radius: 10px;
+   background-repeat: no-repeat;                                
+  background-size: cover;
+}
+
+.section-title {
+     
+  text-align: center;
+  /* margin-bottom: 30px; */
+ text-decoration: #fff;
+  /* background-color: #007bff; */
+}
+.h1{
+    color: #ffffff;
+}
+.enrollment-form-section {
+    margin-left: 25%;
+  width: 50%;
+    text-align: center;
+  background:none;
+  padding: 20px;
+  margin-bottom: 25px;
+  border-radius: 8px;
+  box-shadow: 0 50% 4px rgba(0,0,0,0.1);
+   /* border: 3px solid #bef0ff; */
+}
+
+.enrollment-form-group {
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.enrollment-form-group label {
+  text-align:left;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.enrollment-form-group input {
+    width: 100%;
+  padding: 8px;
+  border: 2px solid #000000;
+  border-radius: 6px;
+}
+
+.enrollment-form-group button {
+  margin-top: 10px;
+ margin-left: 45%;
+  padding: 10px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+    width: 10%;
+}
+.gpabutton{
+  margin-top: 10px;
+  padding: 10px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 10%;
+}
+.enrollment-form-group button:hover {
+  background: #0056b3;
+}
+
+.enrollment-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.enrollment-table th,
+.enrollment-table td {
+  border: 1px solid #000000;
+  padding: 8px;
+}
+
+.enrollment-table th {
+  background-color: #99d2e4;
+  text-align: left;
+}
+
+.error-text {
+  color: red;
+}
+
+.gpa-text {
+  font-size: 18px;
+  margin-top: 10px;
+  color: green;
+}
+
+.dashboard-wrapper {
+  text-align: right;
+  margin-bottom: 20px;
+}
+
+.dashboard-btn {
+  padding: 8px 14px;
+  background-color: #28a745;
+  border: none;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.dashboard-btn:hover {
+  background-color: #218838;
+}

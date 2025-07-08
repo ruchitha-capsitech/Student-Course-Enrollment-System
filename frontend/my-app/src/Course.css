@@ -1,0 +1,170 @@
+.course-container {
+    max-width: 100%;
+  margin: 0 auto;
+  padding: 30px;
+ 
+  text-align: center;
+  font-family: 'Segoe UI', sans-serif;
+  /* background-color: rgb(235, 189, 235); */
+ 
+ background-image: url(https://images.unsplash.com/photo-1614850523060-8da1d56ae167?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bGlnaHQlMjBjb2xvdXJ8ZW58MHx8MHx8fDA%3D);
+
+}
+
+.course-container h1,
+.course-container h2 {
+  color: #2c3e50;
+  margin-bottom: 20px;
+}
+
+.course-container .deletebutton {
+  background-color: #e74c3c;
+}
+
+.course-container .deletebutton:hover {
+  background-color: #c0392b;
+}
+
+.course-container .dashboard-btn {
+  background-color: #2ecc71;
+}
+
+.course-container .dashboard-btn:hover {
+  background-color: #27ae60;
+}
+
+/* .course-container button {
+  margin: 6px;
+  padding: 8px 16px;
+  background-color: #db3466;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+} */
+
+.course-container button:hover {
+  background-color: #2980b9;
+}
+
+.course-form {
+  margin-bottom: 25px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.course-form input {
+  padding: 10px;
+  width: 200px;
+  border: 3px solid #ff00aa;
+  border-radius: 6px;
+}
+
+.course-form label {
+  display: block;
+  width: 100%;
+  font-weight: bold;
+  margin-top: 8px;
+  color: #333;
+  text-align: left;
+}
+
+.course-list {
+  list-style-type: none;
+  padding: 0;
+    max-width: 600px;
+   margin-left: 38%;
+}
+
+.course-item {
+  /* background-color: #ffffff; */
+  background:none;
+  margin: 12px 0;
+  padding: 18px;
+  border-radius: 10px;
+  text-align: left;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    border: 3px solid #6200ff;
+}
+
+.course-item p {
+  margin: 6px 0;
+  line-height: 1.4;
+}
+
+.error-text {
+  color: red;
+  font-weight: bold;
+  margin-top: 10px;
+}
+.time-field-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 5px;
+}
+
+.time-field-group label {
+  font-weight: bold;
+  margin-bottom: 4px;
+  color: #333;
+}
+
+.time-field-group input {
+  padding: 8px;
+  width: 180px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.error {
+  color: red;
+  font-size: 0.9rem;
+  margin-top: -10px;
+  margin-bottom: 10px;
+}
+.Addcourse{
+  background-color: #cf0452;
+margin-top: 30px;
+  padding-top: 10px;
+  height: 50px;
+}
+
+.search-box {
+  margin-right: -2%;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.search-box input {
+    margin-right: -2%;
+  width: 300px;
+  padding: 10px 12px;
+  font-size: 16px;
+  border: 3px solid #1976d2;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.search-box input:focus {
+    margin-right: -2%;
+  border-color: #0d47a1;
+  box-shadow: 0 0 5px rgba(25, 118, 210, 0.5);
+}
+
+ h3 {
+    margin-right: -2%;
+
+  text-align: center;
+  font-weight: 500;
+  font-size: 16px;
+  color: #333;
+  margin-top: -10px;
+  margin-bottom: 20px;
+  
+}

@@ -1,0 +1,349 @@
+.search-student-box {
+    margin-right: -3%;
+  width: 70%;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.search-student-box input {
+    margin-right: -3%;
+   width: 100%;
+  padding: 10px 12px;
+  font-size: 16px;
+  border: 2px solid #d21928;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.search-student-box input:focus {
+   width: 150%;
+    margin-right: -3%;
+  border-color: #0d47a1;
+  box-shadow: 0 0 5px rgba(25, 118, 210, 0.5);
+}
+
+.search-student-box h3 {
+ 
+  text-align: center;
+  padding-left: -10%;
+  /* font-weight: 500;
+  font-size: 16px;
+  color: #333;
+  margin-top: -10px;
+  margin-bottom: 20px; */
+  
+}
+
+ .student-container {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 30px;
+  text-align: center;
+  font-family: 'Segoe UI', sans-serif;
+  /* background-color: blanchedalmond; */
+  background-image:url(https://static.vecteezy.com/system/resources/previews/007/784/841/non_2x/health-and-science-medical-innovation-concept-abstract-geometric-futuristic-background-from-hexagons-pattern-light-blue-radiant-background-illustration-vector.jpg);
+  background-repeat: no-repeat;                                
+  background-size: cover;
+}
+
+.student-container h1 {
+  margin-bottom: 20px;
+  color: #2c3e50;
+  
+}
+.left-panel{
+   max-width: 800px;
+   margin-left: 34%;
+}
+.student-container button {
+  margin: 5px;
+  padding: 8px 16px;
+  background-color: #db3466;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.student-container button:hover {
+  background-color: #29b948;
+}
+
+.student-form input {
+  /* margin: 5px; */
+  /* padding: 8px; */
+  width: 180px;
+  border: 1px solid #e20c0c;
+ 
+}
+
+.student-form {
+  margin: 0 auto;
+  /* padding: 30px; */
+  text-align: left;
+  font-family: 'Segoe UI', sans-serif;
+ 
+ 
+}
+.right-panel{
+  max-width: 800px;
+   margin-left: 38%;
+    
+}
+.student-list {
+  align-content: left;
+  max-width: 600px;
+  list-style-type:none;
+  padding:0;
+  
+}
+
+.student-item {
+  /* background-color: #f5c8e7; */
+  background:none;
+  margin: 10px 0;
+  padding: 15px;
+  border-radius: 36px;
+  box-shadow: 0 0  1000px  rgba(0, 0, 0, 0.1);
+  border: 2px solid #ff00aa;
+}
+
+.student-item div {
+  margin-bottom: 10px;
+}
+.student-container .deletebutton {
+  background-color: red ;
+}
+
+.student-form input,
+.student-form select,
+.student-form button {
+  display: block;
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 8px;
+    border: 2px solid #ff00aa;
+}
+
+
+.error{
+  color:#da1717
+}
+
+
+.course-container {
+    max-width: 100%;
+  margin: 0 auto;
+  padding: 30px;
+ 
+  text-align: center;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: rgb(235, 189, 235);
+ 
+ 
+}
+
+.course-container h1,
+.course-container h2 {
+  color: #2c3e50;
+  margin-bottom: 20px;
+}
+
+.course-container .deletebutton {
+  background-color: #e74c3c;
+}
+
+.course-container .deletebutton:hover {
+  background-color: #c0392b;
+}
+
+.course-container .dashboard-btn {
+  background-color: #2ecc71;
+}
+
+.course-container .dashboard-btn:hover {
+  background-color: #27ae60;
+}
+
+/* .course-container button {
+  margin: 6px;
+  padding: 8px 16px;
+  background-color: #db3466;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+} */
+
+.course-container button:hover {
+  background-color: #2980b9;
+}
+
+.course-form {
+  margin-bottom: 25px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.course-form input {
+  padding: 10px;
+  width: 200px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.course-form label {
+  display: block;
+  width: 100%;
+  font-weight: bold;
+  margin-top: 8px;
+  color: #333;
+  text-align: left;
+}
+
+.course-list {
+  list-style-type: none;
+  padding: 0;
+    max-width: 800px;
+   margin-left: 38%;
+}
+
+.course-item {
+  background-color: #fdfdfd;
+  margin: 12px 0;
+  padding: 18px;
+  border-radius: 10px;
+  text-align: left;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.course-item p {
+  margin: 6px 0;
+  line-height: 1.4;
+}
+
+.error-text {
+  color: red;
+  font-weight: bold;
+  margin-top: 10px;
+}
+.time-field-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 5px;
+}
+
+.time-field-group label {
+  font-weight: bold;
+  margin-bottom: 4px;
+  color: #333;
+}
+
+.time-field-group input {
+  padding: 8px;
+  width: 180px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.error {
+  color: red;
+  font-size: 0.9rem;
+  margin-top: -10px;
+  margin-bottom: 10px;
+}
+.Addcourse{
+  background-color: #cf0452;
+margin-top: 30px;
+  padding-top: 10px;
+  height: 50px;
+}
+
+/* Dashboard.css */
+
+.dashboard-container {
+  text-align: center;
+  margin-top: 50px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: white;
+}
+
+.dashboard-container h1 {
+  margin-top: 5%;
+  margin-bottom: 10px;
+  color: #2c3e50;
+  font-size: 40px;
+}
+
+.dashboard-buttons {
+  height: 20%;
+  margin-top: 16%;
+  margin-left: 10%;
+  padding: 40px 40px;
+  font-size: 40px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 40px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.dashboard-button:hover {
+  background-color: #2980b9;
+} 
+.dashboard-button-logout{
+  height: 20%;
+  margin: 10px;
+ padding: 45px 45px;
+  font-size: 40px;
+  background-color: #da1717;
+  color: white;
+  border: none;
+  border-radius: 40px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.dashboard-button-logout:hover {
+  background-color: #52b929;
+} 
+
+
+ .dashboard-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+input {
+  width: 90%;
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+} 
+
+button {
+  margin: 8px;
+  padding: 10px 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+
+
