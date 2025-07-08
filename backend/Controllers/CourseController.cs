@@ -1,4 +1,4 @@
-﻿using Course_course_enrollment.Services;
+﻿using Student_course_enrollment.Services;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Student_course_enrollment.Models;
