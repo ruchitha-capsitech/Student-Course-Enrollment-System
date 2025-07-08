@@ -34,17 +34,15 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddAuthorization();
 
-// MongoDB Configuration
-builder.Services.Configure<MongoDbSettings>(
-    builder.Configuration.GetSection("MongoDB"));
-
-var mongoSettings = builder.Configuration.GetSection("MongoDB").Get<MongoDbSettings>();
+// MongoDB Configuration from Environment Variables
+var mongoConnectionString = Environment.GetEnvironmentVariable("MONGODB_CONNECTION_STRING");
+var mongoDatabaseName = Environment.GetEnvironmentVariable("MONGODB_DATABASE_NAME");
 
 builder.Services.AddSingleton<IMongoClient>(sp =>
-    new MongoClient(mongoSettings!.ConnectionString));
+    new MongoClient(mongoConnectionString));
 
 builder.Services.AddScoped<IMongoDatabase>(sp =>
-    sp.GetRequiredService<IMongoClient>().GetDatabase(mongoSettings!.DatabaseName));
+    sp.GetRequiredService<IMongoClient>().GetDatabase(mongoDatabaseName));
 
 // Application Services
 builder.Services.AddScoped<UserService>();
@@ -63,13 +61,30 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.WithOrigins("https://student-course-enrollment-system-eta.vercel.app/") // 🔁 Replace with your actual Vercel URL
+        policy.WithOrigins("https://student-course-enrollment-system-eta.vercel.app")
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
 });
 
 var app = builder.Build();
+
+// Optional: Seed admin user on first deploy
+using (var scope = app.Services.CreateScope())
+{
+    var userService = scope.ServiceProvider.GetRequiredService<UserService>();
+    var adminExists = await userService.GetByUsernameAsync("admin");
+
+    if (adminExists == null)
+    {
+        await userService.CreateAsync(new User
+        {
+            Username = "admin",
+            Password = "admin123"
+        });
+        Console.WriteLine("✅ Default admin user created.");
+    }
+}
 
 // Middleware Pipeline
 app.UseSwagger();
