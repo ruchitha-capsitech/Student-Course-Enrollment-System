@@ -9,8 +9,8 @@ using Microsoft.Extensions.Options;
 var builder = WebApplication.CreateBuilder(args);
 
 // Bind DatabaseSettings from appsettings.json
-builder.Services.Configure<DatabaseSettings>(
-    builder.Configuration.GetSection("DatabaseSettings"));
+builder.Services.Configure<MongoDbSettings>(
+    builder.Configuration.GetSection("MongoDbSettings"));
 
 // Register as interface to allow loose coupling
 builder.Services.AddSingleton<IMongoDbSettings>(sp =>
