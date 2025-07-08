@@ -1,101 +1,62 @@
-using Course_course_enrollment.Services;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using MongoDB.Driver;
-using Student_course_enrollment.Models;
-using Student_course_enrollment.Services;
-using System.Text;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Configuration;
+using Studentcourseenrollment.Services;
+using Studentcourseenrollment.Models;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Allow listening on dynamic port (Render requires this)
-builder.WebHost.UseUrls($"http://0.0.0.0:{Environment.GetEnvironmentVariable("PORT") ?? "5000"}");
+// Load MongoDB settings from appsettings.json
+builder.Services.Configure<DatabaseSettings>(
+    builder.Configuration.GetSection("DatabaseSettings"));
 
-// JWT Authentication Configuration
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-})
-.AddJwtBearer(options =>
-{
-    var jwtSettings = builder.Configuration.GetSection("JwtSettings");
-    options.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
-        ValidIssuer = jwtSettings["Issuer"],
-        ValidAudience = jwtSettings["Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["SecretKey"]!))
-    };
-});
+builder.Services.AddSingleton<IDatabaseSettings>(sp =>
+    sp.GetRequiredService<IOptions<DatabaseSettings>>().Value);
 
-builder.Services.AddAuthorization();
+// Register services
+builder.Services.AddSingleton<StudentService>();
+builder.Services.AddSingleton<CourseService>();
+builder.Services.AddSingleton<EnrollmentService>();
+builder.Services.AddSingleton<UserService>();
 
-// MongoDB Configuration from Environment Variables
-var mongoConnectionString = Environment.GetEnvironmentVariable("MONGODB_CONNECTION_STRING");
-var mongoDatabaseName = Environment.GetEnvironmentVariable("MONGODB_DATABASE_NAME");
-
-builder.Services.AddSingleton<IMongoClient>(sp =>
-    new MongoClient(mongoConnectionString));
-
-builder.Services.AddScoped<IMongoDatabase>(sp =>
-    sp.GetRequiredService<IMongoClient>().GetDatabase(mongoDatabaseName));
-
-// Application Services
-builder.Services.AddScoped<UserService>();
-builder.Services.AddScoped<StudentService>();
-builder.Services.AddScoped<CourseService>();
-builder.Services.AddScoped<EnrollmentService>();
-builder.Services.AddSingleton<TokenService>();
-
-// Framework Services
+// Add controllers
 builder.Services.AddControllers();
+
+// Add Swagger for API testing
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// CORS for Vercel Frontend
+// Enable CORS for frontend
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowFrontend", policy =>
-    {
-        policy.WithOrigins("https://student-course-enrollment-system-eta.vercel.app")
-              .AllowAnyHeader()
-              .AllowAnyMethod();
-    });
+    options.AddPolicy("AllowAll",
+        policy => policy
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader());
 });
 
 var app = builder.Build();
 
-// Optional: Seed admin user on first deploy
-using (var scope = app.Services.CreateScope())
+// Enable Swagger UI in development
+if (app.Environment.IsDevelopment())
 {
-    var userService = scope.ServiceProvider.GetRequiredService<UserService>();
-    var adminExists = await userService.GetByUsernameAsync("admin");
-
-    if (adminExists == null)
-    {
-        await userService.CreateAsync(new User
-        {
-            Username = "admin",
-            Password = "admin123"
-        });
-        Console.WriteLine("✅ Default admin user created.");
-    }
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
-// Middleware Pipeline
-app.UseSwagger();
-app.UseSwaggerUI();
-
+// Enable HTTPS redirection
 app.UseHttpsRedirection();
-app.UseCors("AllowFrontend");
 
-app.UseAuthentication();
+// Enable CORS
+app.UseCors("AllowAll");
+
+// Use authorization if needed
 app.UseAuthorization();
 
+// Map controller endpoints
 app.MapControllers();
 
 app.Run();
