@@ -18,33 +18,34 @@ namespace Student_course_enrollment.Controllers
         }
 
         // Login Method [POST]
-       [HttpPost("login")]
-public async Task<IActionResult> Login([FromBody] LoginRequest request)
-{
-    try
-    {
-        var user = await _userService.GetByUsernameAsync(request.Username);
-        if (user == null)
-            return Unauthorized(new { message = "User not found" });
-
-        if (user.Password != request.Password)
-            return Unauthorized(new { message = "Invalid password" });
-
-        var token = _tokenService.CreateToken(user);
-        return Ok(new { token, userId = user.Id });
-    }
-    catch (Exception ex)
-    {
-        return StatusCode(500, new
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
-            message = "Internal server error",
-            error = ex.Message,
-            stackTrace = ex.StackTrace
-        });
-    }
-}
+            try
+            {
+                var user = await _userService.GetByUsernameAsync(request.Username);
+                if (user == null)
+                    return Unauthorized(new { message = "User not found" });
 
-    // Should be defined outside the controller
+                if (user.Password != request.Password)
+                    return Unauthorized(new { message = "Invalid password" });
+
+                var token = _tokenService.CreateToken(user);
+                return Ok(new { token, userId = user.Id });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new
+                {
+                    message = "Internal server error",
+                    error = ex.Message,
+                    stackTrace = ex.StackTrace
+                });
+            }
+        }
+    }
+
+    // Move LoginRequest outside the controller
     public class LoginRequest
     {
         public string Username { get; set; } = null!;
