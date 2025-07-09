@@ -20,31 +20,33 @@ namespace Student_course_enrollment.Controllers
 
         // Login Method [POST]
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginRequest loginUser)
+public async Task<IActionResult> Login([FromBody] LoginRequest loginUser)
+{
+    try
+    {
+        var isValid = await _userService.ValidateCredentialsAsync(loginUser.Username, loginUser.Password);
+        if (!isValid)
         {
-            try
-            {
-                var userCollection = _userService.GetUserCollection(); // Get the collection
-                var user = await userCollection
-                    .Find(u => u.Username == loginUser.Username && u.Password == loginUser.Password)
-                    .FirstOrDefaultAsync();
-
-                if (user == null)
-                {
-                    Console.WriteLine("User not found or invalid credentials.");
-                    return Unauthorized("Invalid username or password.");
-                }
-
-                Console.WriteLine("User found: " + user.Username);
-              var token = _tokenService.CreateToken(user);
-                return Ok(new { token });
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Login error: " + ex.Message);
-                return StatusCode(500, "Internal server error.");
-            }
+            Console.WriteLine("Invalid credentials.");
+            return Unauthorized("Invalid username or password.");
         }
+
+        var user = await _userService.GetByUsernameAsync(loginUser.Username);
+        if (user == null)
+        {
+            return Unauthorized("User not found.");
+        }
+
+        var token = _tokenService.CreateToken(user);
+        return Ok(new { token });
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine("Login error: " + ex.Message);
+        return StatusCode(500, "Internal server error.");
+    }
+}
+
     }
 }
 
