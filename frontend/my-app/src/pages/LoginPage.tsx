@@ -28,12 +28,15 @@ export const LoginPage: React.FC<LoginPageProps> = ({ setIsLoggedIn }) => {
         }),
       });
 
-      if (response.ok) {
-        localStorage.setItem('isLoggedIn', 'true');
-        setIsLoggedIn(true);
-        alert('Logged in successfully');
-        console.log('Navigating to dashboard...');
-        navigate('/dashboard');
+    if (response.ok) {
+  const data = await response.json();
+  localStorage.setItem('token', data.token); // ✅ Store token
+  localStorage.setItem('isLoggedIn', 'true');
+  setIsLoggedIn(true);
+  alert('Logged in successfully');
+  navigate('/dashboard');
+}
+
       } else {
         const data = await response.json();
         setError(data.message || 'Login failed');
