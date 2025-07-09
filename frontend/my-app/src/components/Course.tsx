@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 interface Schedule {
   startTime: string;
   endTime: string;
-  days: number;
+  days: string[];
 }
 
 interface Course {
@@ -27,15 +27,11 @@ const Course: React.FC = () => {
   const [filteredCourses, setFilteredCourses] = useState<Course[]>([]);
   const [newCourse, setNewCourse] = useState<Course>({
     courseTitle: "",
-    credits: 0,
+    credits: "",
     instructor: "",
     semester: "",
-    maxStudents: 0,
-    schedule: {
-      startTime: "",
-      endTime: "",
-      days: 0,
-    },
+    maxStudents: "",
+      schedule: { days: [], startTime: '', endTime: '' },
   });
   const [editingId, setEditingId] = useState<string | null>(null);
 
