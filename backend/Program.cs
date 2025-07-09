@@ -35,6 +35,19 @@ builder.Services.AddAuthorization();
 // Bind DatabaseSettings from appsettings.json
 builder.Services.Configure<MongoDbSettings>(
     builder.Configuration.GetSection("MongoDbSettings"));
+// Register MongoClient and IMongoDatabase
+builder.Services.AddSingleton<IMongoClient>(sp =>
+{
+    var settings = sp.GetRequiredService<IOptions<MongoDbSettings>>().Value;
+    return new MongoClient(settings.ConnectionString);
+});
+
+builder.Services.AddSingleton<IMongoDatabase>(sp =>
+{
+    var settings = sp.GetRequiredService<IOptions<MongoDbSettings>>().Value;
+    var client = sp.GetRequiredService<IMongoClient>();
+    return client.GetDatabase(settings.DatabaseName);
+});
 
 // Register as interface to allow loose coupling
 builder.Services.AddSingleton<IMongoDbSettings>(sp =>
