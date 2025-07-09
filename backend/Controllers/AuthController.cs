@@ -19,7 +19,7 @@ namespace Student_course_enrollment.Controllers
         }
 
         // Login Method [POST]
-        [HttpPost("login")]
+      [HttpPost("login")]
 public async Task<IActionResult> Login([FromBody] LoginRequest loginUser)
 {
     try
@@ -27,7 +27,6 @@ public async Task<IActionResult> Login([FromBody] LoginRequest loginUser)
         var isValid = await _userService.ValidateCredentialsAsync(loginUser.Username, loginUser.Password);
         if (!isValid)
         {
-            Console.WriteLine("Invalid credentials.");
             return Unauthorized("Invalid username or password.");
         }
 
