@@ -36,7 +36,7 @@ namespace Student_course_enrollment.Controllers
                 }
 
                 Console.WriteLine("User found: " + user.Username);
-                var token = _tokenService.GenerateToken(user);
+              var token = _tokenService.CreateToken(user);
                 return Ok(new { token });
             }
             catch (Exception ex)
