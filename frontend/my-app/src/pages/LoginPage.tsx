@@ -23,8 +23,8 @@ export const LoginPage: React.FC<LoginPageProps> = ({ setIsLoggedIn }) => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          username: username,
-          password: password,
+          Username: username,
+          Password: password,
         }),
       });
 
