@@ -8,7 +8,7 @@ namespace Student_course_enrollment.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class CourseController : ControllerBase
+    public class CoursesController : ControllerBase
     {
            
            //TO CONNECT WITH COURSE SERVICES
