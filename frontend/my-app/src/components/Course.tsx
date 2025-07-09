@@ -147,7 +147,7 @@ const Course: React.FC = () => {
 
   return (
     <div className="course-container">
-      <h2>Course Management</h2>
+      <h2>Course Management system </h2>
 
       <div className="course-form">
         <input
