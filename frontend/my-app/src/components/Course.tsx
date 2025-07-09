@@ -86,21 +86,21 @@ const [createErrors, setCreateErrors] = useState<Partial<Record<keyof Course, st
     }
   };
 
-  const handleSubmit = async () => {
-    try {
-      if (
-        !newCourse.courseTitle ||
-        !newCourse.credits ||
-        !newCourse.instructor ||
-        !newCourse.semester ||
-        !newCourse.maxStudents ||
-        !newCourse.schedule.startTime ||
-        !newCourse.schedule.endTime ||
-        newCourse.schedule.days === 0
-      ) {
-        alert("Please fill all fields.");
-        return;
-      }
+  // const handleSubmit = async () => {
+  //   try {
+  //     if (
+  //       !newCourse.courseTitle ||
+  //       !newCourse.credits ||
+  //       !newCourse.instructor ||
+  //       !newCourse.semester ||
+  //       !newCourse.maxStudents ||
+  //       !newCourse.schedule.startTime ||
+  //       !newCourse.schedule.endTime ||
+  //       newCourse.schedule.days === 0
+  //     ) {
+  //       alert("Please fill all fields.");
+  //       return;
+  //     }
 
       if (editingId) {
         await axios.put(`${BASE_URL}/course/${editingId}`, newCourse);
