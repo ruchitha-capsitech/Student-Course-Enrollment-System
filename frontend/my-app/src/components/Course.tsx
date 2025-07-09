@@ -11,12 +11,12 @@ interface Schedule {
 
 interface Course {
   id?: string;
-  courseNo?: number; // Displayed only, not used in form
+  courseNo?: string; // Displayed only, not used in form
   courseTitle: string;
-  credits: number;
+  credits: string;
   instructor: string;
   semester: string;
-  maxStudents: number;
+  maxStudents: string;
   schedule: Schedule;
 }
 
