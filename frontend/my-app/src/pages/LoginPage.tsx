@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../login.css';
-import { BASE_URL } from '../api'; // 👈 use environment-based URL
+import { BASE_URL } from '../api';
 
 interface LoginPageProps {
   setIsLoggedIn: (value: boolean) => void;
@@ -17,7 +17,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ setIsLoggedIn }) => {
     e.preventDefault();
 
     try {
-      const response = await fetch(`${BASE_URL}/auth/login`, {
+      const response = await fetch(`${BASE_URL}/api/Auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -28,15 +28,13 @@ export const LoginPage: React.FC<LoginPageProps> = ({ setIsLoggedIn }) => {
         }),
       });
 
-    if (response.ok) {
-  const data = await response.json();
-  localStorage.setItem('token', data.token); // ✅ Store token
-  localStorage.setItem('isLoggedIn', 'true');
-  setIsLoggedIn(true);
-  alert('Logged in successfully');
-  navigate('/dashboard');
-}
-
+      if (response.ok) {
+        const data = await response.json();
+        localStorage.setItem('token', data.token); // ✅ Store token
+        localStorage.setItem('isLoggedIn', 'true');
+        setIsLoggedIn(true);
+        alert('Logged in successfully');
+        navigate('/dashboard');
       } else {
         const data = await response.json();
         setError(data.message || 'Login failed');
@@ -73,6 +71,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ setIsLoggedIn }) => {
 };
 
 export default LoginPage;
+
 
 
 
