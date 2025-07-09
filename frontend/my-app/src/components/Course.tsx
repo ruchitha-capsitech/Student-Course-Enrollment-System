@@ -42,7 +42,20 @@ const Course: React.FC = () => {
   useEffect(() => {
     fetchCourses();
   }, []);
+const [createErrors, setCreateErrors] = useState<Partial<Record<keyof Course, string>>>({});
+  const [editErrors, setEditErrors] = useState<Partial<Record<keyof Course, string>>>({});
+//validations
+  const validateCourse = (course: Partial<Course | Omit<Course, 'id'>>) => {
+    const newErrors: Partial<Record<keyof Course, string>> = {};
 
+    if (!course.courseTitle) newErrors.courseTitle = 'Course title is required';
+    if (!course.credits) newErrors.credits = 'Credits are required';
+    if (!course.instructor) newErrors.instructor = 'Instructor is required';
+    if (!course.semester) newErrors.semester = 'Semester is required';
+    if (!course.maxStudents) newErrors.maxStudents = 'Max students is required';
+
+    return newErrors;
+  };
   const fetchCourses = async () => {
     try {
       const response = await axios.get<Course[]>(`${BASE_URL}/course`);
