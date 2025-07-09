@@ -68,7 +68,7 @@ const Course: React.FC = () => {
   };
 //method for fetching courses
   const fetchCourses = async () => {
-    const res = await fetch('${BASE_URL}/courses');
+    const res = await fetch('${BASE_URL}/api/courses');
     const data = await res.json();
     setCourses(data);
   };
