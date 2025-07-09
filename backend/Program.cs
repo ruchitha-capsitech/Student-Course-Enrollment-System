@@ -73,7 +73,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowVercel", policy =>
-        policy.WithOrigins("https://student-course-enrollment-system-two.vercel.app")
+        policy.WithOrigins("https://student-course-enrollment-system-l1n4et7j5.vercel.app")
               .AllowAnyMethod()
               .AllowAnyHeader()
               .AllowCredentials());
@@ -98,7 +98,7 @@ app.UseHttpsRedirection();
 // Enable CORS
 app.UseCors("AllowVercel");
 
-
+app.UseAuthentication();
 // Use Authorization (you can add Authentication later if needed)
 app.UseAuthorization();
 
