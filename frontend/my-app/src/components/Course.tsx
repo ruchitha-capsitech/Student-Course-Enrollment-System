@@ -1,15 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import { BASE_URL } from '../api';
-import './Course.css';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import "./Course.css";
+import { BASE_URL } from "../api";
 
 interface Schedule {
-  days: string[];
   startTime: string;
   endTime: string;
+  days: number;
 }
 
 interface Course {
   id?: string;
+  courseNo?: number; // Displayed only, not used in form
   courseTitle: string;
   credits: number;
   instructor: string;
@@ -18,262 +20,239 @@ interface Course {
   schedule: Schedule;
 }
 
-const initialCourseState: Course = {
-  courseTitle: '',
-  credits: 0,
-  instructor: '',
-  semester: '',
-  maxStudents: 0,
-  schedule: {
-    days: [],
-    startTime: '',
-    endTime: '',
-  },
-};
-
-const dayMap: { [key: string]: string } = {
-  '0': 'Sunday',
-  '1': 'Monday',
-  '2': 'Tuesday',
-  '3': 'Wednesday',
-  '4': 'Thursday',
-  '5': 'Friday',
-  '6': 'Saturday',
-};
-
-const CoursePage: React.FC = () => {
+const Course: React.FC = () => {
   const [courses, setCourses] = useState<Course[]>([]);
-  const [newCourse, setNewCourse] = useState<Course>(initialCourseState);
-  const [formData, setFormData] = useState<Course>(initialCourseState);
+  const [searchTitle, setSearchTitle] = useState("");
+  const [filteredCourses, setFilteredCourses] = useState<Course[]>([]);
+  const [newCourse, setNewCourse] = useState<Course>({
+    courseTitle: "",
+    credits: 0,
+    instructor: "",
+    semester: "",
+    maxStudents: 0,
+    schedule: {
+      startTime: "",
+      endTime: "",
+      days: 0,
+    },
+  });
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [searchTitle, setSearchTitle] = useState('');
-  const [createErrors, setCreateErrors] = useState<{ [key: string]: string }>({});
-  const [editErrors, setEditErrors] = useState<{ [key: string]: string }>({});
 
   useEffect(() => {
     fetchCourses();
   }, []);
 
   const fetchCourses = async () => {
-    const response = await fetch(`${BASE_URL}/courses`);
-    const data = await response.json();
-    setCourses(data);
-  };
-
-  const getDayNamesFromNumbers = (dayNums: string[]) =>
-    dayNums.map(d => dayMap[d.trim()] || d);
-
-  const validateCourse = (course: Course) => {
-    const errors: { [key: string]: string } = {};
-    if (!course.courseTitle) errors.courseTitle = 'Title required';
-    if (!course.credits) errors.credits = 'Credits required';
-    if (!course.instructor) errors.instructor = 'Instructor required';
-    if (!course.semester) errors.semester = 'Semester required';
-    if (!course.maxStudents && editingId === null) errors.maxStudents = 'Max Students required';
-    if (!course.schedule.days.length) errors.schedule = 'Days required';
-    if (!course.schedule.startTime) errors.schedule = 'Start time required';
-    if (!course.schedule.endTime) errors.schedule = 'End time required';
-    return errors;
-  };
-
-  const handleCreateCourse = async () => {
-    const errors = validateCourse(newCourse);
-    if (Object.keys(errors).length > 0) {
-      setCreateErrors(errors);
-      return;
+    try {
+      const response = await axios.get<Course[]>(`${BASE_URL}/course`);
+      setCourses(response.data);
+      setFilteredCourses(response.data);
+    } catch (error) {
+      console.error("Error fetching courses:", error);
     }
+  };
 
-    const formattedCourse = {
-      ...newCourse,
-      schedule: {
-        ...newCourse.schedule,
-        days: getDayNamesFromNumbers(newCourse.schedule.days),
-      },
-    };
+  const handleSearch = () => {
+    const filtered = courses.filter((course) =>
+      course.courseTitle.toLowerCase().includes(searchTitle.toLowerCase())
+    );
+    setFilteredCourses(filtered);
+  };
 
-    const response = await fetch(`${BASE_URL}/courses`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formattedCourse),
-    });
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    if (name === "startTime" || name === "endTime" || name === "days") {
+      setNewCourse((prev) => ({
+        ...prev,
+        schedule: {
+          ...prev.schedule,
+          [name]: name === "days" ? Number(value) : value,
+        },
+      }));
+    } else {
+      setNewCourse((prev) => ({ ...prev, [name]: name === "credits" || name === "maxStudents" ? Number(value) : value }));
+    }
+  };
 
-    if (response.ok) {
+  const handleSubmit = async () => {
+    try {
+      if (
+        !newCourse.courseTitle ||
+        !newCourse.credits ||
+        !newCourse.instructor ||
+        !newCourse.semester ||
+        !newCourse.maxStudents ||
+        !newCourse.schedule.startTime ||
+        !newCourse.schedule.endTime ||
+        newCourse.schedule.days === 0
+      ) {
+        alert("Please fill all fields.");
+        return;
+      }
+
+      if (editingId) {
+        await axios.put(`${BASE_URL}/course/${editingId}`, newCourse);
+        setEditingId(null);
+      } else {
+        await axios.post(`${BASE_URL}/course`, newCourse);
+      }
+
+      setNewCourse({
+        courseTitle: "",
+        credits: 0,
+        instructor: "",
+        semester: "",
+        maxStudents: 0,
+        schedule: {
+          startTime: "",
+          endTime: "",
+          days: 0,
+        },
+      });
+
       fetchCourses();
-      setNewCourse(initialCourseState);
-      setCreateErrors({});
+    } catch (error) {
+      console.error("Error saving course:", error);
     }
   };
 
   const handleEdit = (course: Course) => {
-    setEditingId(course.id || null);
-    setFormData({ ...course });
-    setEditErrors({});
+    setNewCourse(course);
+    setEditingId(course.id ?? null);
   };
 
-  const handleUpdate = async () => {
-    const errors = validateCourse(formData);
-    if (Object.keys(errors).length > 0) {
-      setEditErrors(errors);
-      return;
-    }
-
-    const formattedCourse = {
-      ...formData,
-      schedule: {
-        ...formData.schedule,
-        days: getDayNamesFromNumbers(formData.schedule.days),
-      },
-    };
-
-    const response = await fetch(`${BASE_URL}/courses/${formData.id}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formattedCourse),
-    });
-
-    if (response.ok) {
+  const handleDelete = async (id: string) => {
+    try {
+      await axios.delete(`${BASE_URL}/course/${id}`);
       fetchCourses();
-      setEditingId(null);
-      setFormData(initialCourseState);
+    } catch (error) {
+      console.error("Error deleting course:", error);
     }
   };
 
-  const handleDelete = async (id?: string) => {
-    if (!id) return;
-    await fetch(`${BASE_URL}/courses/${id}`, {
-      method: 'DELETE',
-    });
-    fetchCourses();
+  const renderSchedule = (schedule: Schedule) => {
+    const daysMap: { [key: number]: string } = {
+      1: "Monday",
+      2: "Tuesday",
+      3: "Wednesday",
+      4: "Thursday",
+      5: "Friday",
+      6: "Saturday",
+      7: "Sunday",
+    };
+    return `${daysMap[schedule.days]} ${schedule.startTime} - ${schedule.endTime}`;
   };
-
-  const filteredCourses = searchTitle
-    ? courses.filter(c => c.courseTitle.toLowerCase().includes(searchTitle.toLowerCase()))
-    : courses;
 
   return (
-  <div className="course-container">
-       <h1>Course Management</h1>
-       <button onClick={goToDashboard}>Back to Dashboard</button>
-       <h2>Create New Course</h2>
-       <div className="course-form">
-         <div>
-            <label>Course Name:-</label>
-           <input placeholder="Title" value={newCourse.courseTitle} onChange={(e) => setNewCourse({ ...newCourse, courseTitle: e.target.value })} />
-           {createErrors.courseTitle && <div className="error">{createErrors.courseTitle}</div>}
-         </div>
-         <div>
-             <label>Credits:-</label>
-          <input type="number" placeholder="Credits" value={newCourse.credits} onChange={(e) => setNewCourse({ ...newCourse, credits: e.target.value })} />
-           {createErrors.credits && <div className="error">{createErrors.credits}</div>}
-         </div>
+    <div className="course-container">
+      <h2>Course Management</h2>
 
-         <div>
-               <label>Instructor:-</label>
-          <input placeholder="Instructor" value={newCourse.instructor} onChange={(e) => setNewCourse({ ...newCourse, instructor: e.target.value })} />
-           {createErrors.instructor && <div className="error">{createErrors.instructor}</div>}
-         </div>
+      <div className="course-form">
+        <input
+          type="text"
+          name="courseTitle"
+          placeholder="Course Title"
+          value={newCourse.courseTitle}
+          onChange={handleChange}
+        />
+        <input
+          type="number"
+          name="credits"
+          placeholder="Credits"
+          value={newCourse.credits}
+          onChange={handleChange}
+        />
+        <input
+          type="text"
+          name="instructor"
+          placeholder="Instructor"
+          value={newCourse.instructor}
+          onChange={handleChange}
+        />
+        <select
+          name="semester"
+          value={newCourse.semester}
+          onChange={handleChange}
+        >
+          <option value="">Select Semester</option>
+          <option value="1">1st Semester</option>
+          <option value="2">2nd Semester</option>
+          <option value="3">3rd Semester</option>
+        </select>
+        <input
+          type="number"
+          name="maxStudents"
+          placeholder="Max Students"
+          value={newCourse.maxStudents}
+          onChange={handleChange}
+        />
+        <label>Start Time:</label>
+        <input
+          type="time"
+          name="startTime"
+          value={newCourse.schedule.startTime}
+          onChange={handleChange}
+        />
+        <label>End Time:</label>
+        <input
+          type="time"
+          name="endTime"
+          value={newCourse.schedule.endTime}
+          onChange={handleChange}
+        />
+        <select
+          name="days"
+          value={newCourse.schedule.days}
+          onChange={handleChange}
+        >
+          <option value={0}>Select Day</option>
+          <option value={1}>Monday</option>
+          <option value={2}>Tuesday</option>
+          <option value={3}>Wednesday</option>
+          <option value={4}>Thursday</option>
+          <option value={5}>Friday</option>
+          <option value={6}>Saturday</option>
+          <option value={7}>Sunday</option>
+        </select>
+        <button onClick={handleSubmit}>
+          {editingId ? "Update Course" : "Add Course"}
+        </button>
+      </div>
 
-         <div>
-           <label>Semester:-</label>
-           <input placeholder="Semester" value={newCourse.semester} onChange={(e) => setNewCourse({ ...newCourse, semester: e.target.value })} />
-           {createErrors.semester && <div className="error">{createErrors.semester}</div>}
-         </div>
-         <div>
-           <label>Maximum Students</label>
-           <input type="number" placeholder="Max Students" value={newCourse.maxStudents} onChange={(e) => setNewCourse({ ...newCourse, maxStudents: e.target.value })} />
-           {createErrors.maxStudents && <div className="error">{createErrors.maxStudents}</div>}
-         </div>
-         <div>
-           <label>Days:-</label>
-           <input placeholder="Days (comma-separated)" value={newCourse.schedule.days.join(',')} onChange={(e) => setNewCourse({ ...newCourse, schedule: { ...newCourse.schedule, days: e.target.value.split(',') } })} />
-        </div>
-         <div>
-           <label>From:-</label>
-           <input type="time" value={newCourse.schedule.startTime} onChange={(e) => setNewCourse({ ...newCourse, schedule: { ...newCourse.schedule, startTime: e.target.value } })} />
-         </div>
-         <div>
-           <label>To:-</label>
-          <input type="time" value={newCourse.schedule.endTime} onChange={(e) => setNewCourse({ ...newCourse, schedule: { ...newCourse.schedule, endTime: e.target.value } })} />
-         </div>
+      <div className="course-search">
+        <input
+          type="text"
+          placeholder="Search by Title"
+          value={searchTitle}
+          onChange={(e) => setSearchTitle(e.target.value)}
+        />
+        <button onClick={handleSearch}>Search</button>
+      </div>
 
-         <button className='Addcourse' onClick={handleCreate}>Add Course</button>
-       </div>
-  <div className="search-box">
-           <input
-             type="text"
-             placeholder="Search by Course Title"
-             value={searchCoursetitle}
-             onChange={(e) => setCoursetitle(e.target.value)}
-           />
-         </div>
-         {searchCoursetitle && <h3>{CourseSearchMessage}</h3>}
-       <h2>All Courses</h2>
-       <ul className="course-list">
-         {(searchCoursetitle ? filteredCourses :courses).map((course) => (
-           <li key={course.id} className="course-item">
-             {editingId === course.id ? (
-               <div className="course-form">
-                 <div>
-                       <label>Course Name:-</label>
-                   <input placeholder="Title" value={formData.courseTitle || ''} onChange={(e) => setFormData({ ...formData, courseTitle: e.target.value })} />
-                   {editErrors.courseTitle && <div className="error">{editErrors.courseTitle}</div>}
-                 </div>
-                 <div>
-                       <label>Credits:-</label>
-                   <input placeholder="Credits" type="number" value={formData.credits || ''} onChange={(e) => setFormData({ ...formData, credits: e.target.value })} />
-                   {editErrors.credits && <div className="error">{editErrors.credits}</div>}
-                 </div>
-
-                 <div>
-                     <label>Instructor:-</label>
-                   <input placeholder="Instructor" value={formData.instructor || ''} onChange={(e) => setFormData({ ...formData, instructor: e.target.value })} />
-                   {editErrors.instructor && <div className="error">{editErrors.instructor}</div>}
-                 </div>
-               <div>
-                     <label>Semester:-</label>
-                   <input placeholder="Semester" value={formData.semester || ''} onChange={(e) => setFormData({ ...formData, semester: e.target.value })} />
-                   {editErrors.semester && <div className="error">{editErrors.semester}</div>}
-                 </div>
-                <div>
-                   <label>Days:-</label>
-                   <input placeholder="Days (comma-separated)" value={formData.schedule?.days.map(day => dayMap[day] || day).join(',') || ''} onChange={(e) => setFormData({ ...formData, schedule: { ...formData.schedule!, days: e.target.value.split(',') } })} />
-                 </div>
-
-                 <div>
-                      <label>From:-</label>
-                  <input type="time" value={formData.schedule?.startTime || ''} onChange={(e) => setFormData({ ...formData, schedule: { ...formData.schedule!, startTime: e.target.value } })} />
-                 </div>
-                <div>
-                     <label>To:-</label>
-                   <input type="time" value={formData.schedule?.endTime || ''} onChange={(e) => setFormData({ ...formData, schedule: { ...formData.schedule!, endTime: e.target.value } })} />
-                 </div>
-              <button onClick={handleUpdate}>Save</button>
-                 <button onClick={() => setEditingId(null)}>Cancel</button>
-               </div>
-             ) : (
-               <div> 
-                  <p><strong>Course Number:- </strong> {course.courseNo}</p>
-                 <p><strong>Course Name:</strong> {course.courseTitle}</p>
-                 <p><strong>Instructor:</strong> {course.instructor}</p>
-                <p><strong>Semester:</strong> {course.semester}</p>
-                 <p><strong>Credits:</strong> {course.credits}</p>
-                 <p><strong>Max Students:</strong> {course.maxStudents}</p>
-                 <p><strong>Schedule:</strong> {course.schedule.days.map(day => dayMap[day] || day).join(', ')} | {course.schedule.startTime} - {course.schedule.endTime}</p>
-                 <button onClick={() => {
-                   setEditingId(course.id);
-                   setFormData({ ...course });
-                }}>Edit</button>
-                 <button className='deletebutton' onClick={() => handleDelete(course.id)}>Delete</button>
-               </div>
-             )}
-           </li>
-         ))}
-       </ul>
-     </div>
-   );
+      <div className="course-list">
+        {filteredCourses.map((course) => (
+          <div key={course.id} className="course-card">
+            <p><strong>Course Number:</strong> {course.courseNo}</p>
+            <p><strong>Title:</strong> {course.courseTitle}</p>
+            <p><strong>Instructor:</strong> {course.instructor}</p>
+            <p><strong>Credits:</strong> {course.credits}</p>
+            <p><strong>Max Students:</strong> {course.maxStudents}</p>
+            <p><strong>Schedule:</strong> {renderSchedule(course.schedule)}</p>
+            <p><strong>Semester:</strong> {course.semester}</p>
+            <div className="btn-group">
+              <button onClick={() => handleEdit(course)}>Edit</button>
+              <button onClick={() => handleDelete(course.id!)}>Delete</button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 };
 
-export default CoursePage;
+export default Course;
 
 
 
