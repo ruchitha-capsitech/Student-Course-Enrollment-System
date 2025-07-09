@@ -146,108 +146,135 @@ const Course: React.FC = () => {
   };
 
   return (
-    <div className="course-container">
-      <h2>Course Management system </h2>
+   <div className="course-container">
+      <h1>Course Management</h1>
+      <button onClick={goToDashboard}>Back to Dashboard</button>
 
+      <h2>Create New Course</h2>
       <div className="course-form">
-        <input
-          type="text"
-          name="courseTitle"
-          placeholder="Course Title"
-          value={newCourse.courseTitle}
-          onChange={handleChange}
-        />
-        <input
-          type="number"
-          name="credits"
-          placeholder="Credits"
-          value={newCourse.credits}
-          onChange={handleChange}
-        />
-        <input
-          type="text"
-          name="instructor"
-          placeholder="Instructor"
-          value={newCourse.instructor}
-          onChange={handleChange}
-        />
-        <select
-          name="semester"
-          value={newCourse.semester}
-          onChange={handleChange}
-        >
-          <option value="">Select Semester</option>
-          <option value="1">1st Semester</option>
-          <option value="2">2nd Semester</option>
-          <option value="3">3rd Semester</option>
-        </select>
-        <input
-          type="number"
-          name="maxStudents"
-          placeholder="Max Students"
-          value={newCourse.maxStudents}
-          onChange={handleChange}
-        />
-        <label>Start Time:</label>
-        <input
-          type="time"
-          name="startTime"
-          value={newCourse.schedule.startTime}
-          onChange={handleChange}
-        />
-        <label>End Time:</label>
-        <input
-          type="time"
-          name="endTime"
-          value={newCourse.schedule.endTime}
-          onChange={handleChange}
-        />
-        <select
-          name="days"
-          value={newCourse.schedule.days}
-          onChange={handleChange}
-        >
-          <option value={0}>Select Day</option>
-          <option value={1}>Monday</option>
-          <option value={2}>Tuesday</option>
-          <option value={3}>Wednesday</option>
-          <option value={4}>Thursday</option>
-          <option value={5}>Friday</option>
-          <option value={6}>Saturday</option>
-          <option value={7}>Sunday</option>
-        </select>
-        <button onClick={handleSubmit}>
-          {editingId ? "Update Course" : "Add Course"}
-        </button>
-      </div>
+        <div>
+           <label>Course Name:-</label>
+          <input placeholder="Title" value={newCourse.courseTitle} onChange={(e) => setNewCourse({ ...newCourse, courseTitle: e.target.value })} />
+          {createErrors.courseTitle && <div className="error">{createErrors.courseTitle}</div>}
+        </div>
 
-      <div className="course-search">
-        <input
-          type="text"
-          placeholder="Search by Title"
-          value={searchTitle}
-          onChange={(e) => setSearchTitle(e.target.value)}
-        />
-        <button onClick={handleSearch}>Search</button>
-      </div>
+        <div>
+            <label>Credits:-</label>
+          <input type="number" placeholder="Credits" value={newCourse.credits} onChange={(e) => setNewCourse({ ...newCourse, credits: e.target.value })} />
+          {createErrors.credits && <div className="error">{createErrors.credits}</div>}
+        </div>
 
-      <div className="course-list">
-        {filteredCourses.map((course) => (
-          <div key={course.id} className="course-card">
-            <p><strong>Course Number:</strong> {course.courseNo}</p>
-            <p><strong>Title:</strong> {course.courseTitle}</p>
-            <p><strong>Instructor:</strong> {course.instructor}</p>
-            <p><strong>Credits:</strong> {course.credits}</p>
-            <p><strong>Max Students:</strong> {course.maxStudents}</p>
-            <p><strong>Schedule:</strong> {renderSchedule(course.schedule)}</p>
-            <p><strong>Semester:</strong> {course.semester}</p>
-            <div className="btn-group">
-              <button onClick={() => handleEdit(course)}>Edit</button>
-              <button onClick={() => handleDelete(course.id!)}>Delete</button>
-            </div>
-          </div>
+        <div>
+              <label>Instructor:-</label>
+          <input placeholder="Instructor" value={newCourse.instructor} onChange={(e) => setNewCourse({ ...newCourse, instructor: e.target.value })} />
+          {createErrors.instructor && <div className="error">{createErrors.instructor}</div>}
+        </div>
+
+        <div>
+          <label>Semester:-</label>
+          <input placeholder="Semester" value={newCourse.semester} onChange={(e) => setNewCourse({ ...newCourse, semester: e.target.value })} />
+          {createErrors.semester && <div className="error">{createErrors.semester}</div>}
+        </div>
+
+        <div>
+          <label>Maximum Students</label>
+          <input type="number" placeholder="Max Students" value={newCourse.maxStudents} onChange={(e) => setNewCourse({ ...newCourse, maxStudents: e.target.value })} />
+          {createErrors.maxStudents && <div className="error">{createErrors.maxStudents}</div>}
+        </div>
+
+        <div>
+          <label>Days:-</label>
+          <input placeholder="Days (comma-separated)" value={newCourse.schedule.days.join(',')} onChange={(e) => setNewCourse({ ...newCourse, schedule: { ...newCourse.schedule, days: e.target.value.split(',') } })} />
+        </div>
+
+        <div>
+          <label>From:-</label>
+          <input type="time" value={newCourse.schedule.startTime} onChange={(e) => setNewCourse({ ...newCourse, schedule: { ...newCourse.schedule, startTime: e.target.value } })} />
+        </div>
+
+        <div>
+          <label>To:-</label>
+          <input type="time" value={newCourse.schedule.endTime} onChange={(e) => setNewCourse({ ...newCourse, schedule: { ...newCourse.schedule, endTime: e.target.value } })} />
+        </div>
+
+        <button className='Addcourse' onClick={handleCreate}>Add Course</button>
+      </div>
+ <div className="search-box">
+          <input
+            type="text"
+            placeholder="Search by Course Title"
+            value={searchCoursetitle}
+            onChange={(e) => setCoursetitle(e.target.value)}
+          />
+        </div>
+        {searchCoursetitle && <h3>{CourseSearchMessage}</h3>}
+      <h2>All Courses</h2>
+      <ul className="course-list">
+        {(searchCoursetitle ? filteredCourses :courses).map((course) => (
+          <li key={course.id} className="course-item">
+            {editingId === course.id ? (
+              <div className="course-form">
+                <div>
+                      <label>Course Name:-</label>
+                  <input placeholder="Title" value={formData.courseTitle || ''} onChange={(e) => setFormData({ ...formData, courseTitle: e.target.value })} />
+                  {editErrors.courseTitle && <div className="error">{editErrors.courseTitle}</div>}
+                </div>
+
+                <div>
+                      <label>Credits:-</label>
+                  <input placeholder="Credits" type="number" value={formData.credits || ''} onChange={(e) => setFormData({ ...formData, credits: e.target.value })} />
+                  {editErrors.credits && <div className="error">{editErrors.credits}</div>}
+                </div>
+
+                <div>
+                    <label>Instructor:-</label>
+                  <input placeholder="Instructor" value={formData.instructor || ''} onChange={(e) => setFormData({ ...formData, instructor: e.target.value })} />
+                  {editErrors.instructor && <div className="error">{editErrors.instructor}</div>}
+                </div>
+
+                <div>
+                    <label>Semester:-</label>
+                  <input placeholder="Semester" value={formData.semester || ''} onChange={(e) => setFormData({ ...formData, semester: e.target.value })} />
+                  {editErrors.semester && <div className="error">{editErrors.semester}</div>}
+                </div>
+
+                <div>
+                  <label>Days:-</label>
+                  <input placeholder="Days (comma-separated)" value={formData.schedule?.days.map(day => dayMap[day] || day).join(',') || ''} onChange={(e) => setFormData({ ...formData, schedule: { ...formData.schedule!, days: e.target.value.split(',') } })} />
+                </div>
+
+                <div>
+                     <label>From:-</label>
+                  <input type="time" value={formData.schedule?.startTime || ''} onChange={(e) => setFormData({ ...formData, schedule: { ...formData.schedule!, startTime: e.target.value } })} />
+                </div>
+
+                <div>
+                     <label>To:-</label>
+                  <input type="time" value={formData.schedule?.endTime || ''} onChange={(e) => setFormData({ ...formData, schedule: { ...formData.schedule!, endTime: e.target.value } })} />
+                </div>
+
+                <button onClick={handleUpdate}>Save</button>
+                <button onClick={() => setEditingId(null)}>Cancel</button>
+              </div>
+            ) : (
+              <div> 
+                 <p><strong>Course Number:- </strong> {course.courseNo}</p>
+                <p><strong>Course Name:</strong> {course.courseTitle}</p>
+                <p><strong>Instructor:</strong> {course.instructor}</p>
+                <p><strong>Semester:</strong> {course.semester}</p>
+                <p><strong>Credits:</strong> {course.credits}</p>
+                <p><strong>Max Students:</strong> {course.maxStudents}</p>
+                <p><strong>Schedule:</strong> {course.schedule.days.map(day => dayMap[day] || day).join(', ')} | {course.schedule.startTime} - {course.schedule.endTime}</p>
+                <button onClick={() => {
+                  setEditingId(course.id);
+                  setFormData({ ...course });
+                }}>Edit</button>
+                <button className='deletebutton' onClick={() => handleDelete(course.id)}>Delete</button>
+              </div>
+            )}
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
   );
 };
