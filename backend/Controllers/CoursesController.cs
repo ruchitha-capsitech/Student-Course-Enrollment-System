@@ -14,7 +14,7 @@ namespace Student_course_enrollment.Controllers
            //TO CONNECT WITH COURSE SERVICES
             private readonly CourseService _courseService;
 
-            public CourseController(CourseService courseService)
+            public CoursesController(CourseService courseService)
             {
                 _courseService = courseService;
             }
