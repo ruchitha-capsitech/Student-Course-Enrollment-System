@@ -72,12 +72,12 @@ builder.Services.AddSwaggerGen();
 // Allow any origin (you can restrict this later for production)
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowVercel", policy =>
-        policy.WithOrigins("https://student-course-enrollment-system-atpsjwuq4.vercel.app/")
+    options.AddPolicy("AllowAll", policy =>
+        policy.AllowAnyOrigin()  // <-- This removes origin restriction
               .AllowAnyMethod()
-              .AllowAnyHeader()
-              .AllowCredentials());
+              .AllowAnyHeader());
 });
+
 
 
 var app = builder.Build();
@@ -96,7 +96,8 @@ app.UseSwaggerUI(c =>
 app.UseHttpsRedirection();
 
 // Enable CORS
-app.UseCors("AllowVercel");
+app.UseCors("AllowAll");
+
 
 app.UseAuthentication();
 // Use Authorization (you can add Authentication later if needed)
