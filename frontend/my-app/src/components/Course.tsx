@@ -21,6 +21,7 @@ interface Course {
 }
 
 const Course: React.FC = () => {
+   const navigate = useNavigate();
   const [courses, setCourses] = useState<Course[]>([]);
   const [searchTitle, setSearchTitle] = useState("");
   const [filteredCourses, setFilteredCourses] = useState<Course[]>([]);
