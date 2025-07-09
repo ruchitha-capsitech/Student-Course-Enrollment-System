@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-// import "../Course.css";
+import "../Course.css";
 import { BASE_URL } from "../api";
 
 interface Schedule {
