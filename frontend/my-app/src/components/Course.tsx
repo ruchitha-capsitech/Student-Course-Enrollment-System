@@ -1,4 +1,4 @@
-import '../Course.css';
+import "./Course.css";
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BASE_URL } from "../api";
