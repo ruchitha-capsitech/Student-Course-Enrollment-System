@@ -82,7 +82,7 @@ const Course: React.FC = () => {
     }
     setCreateErrors({}); 
 
-    const res = await fetch('${BASE_URL}/course', {
+    const res = await fetch('${BASE_URL}/Courses', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(newCourse),
