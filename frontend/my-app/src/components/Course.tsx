@@ -144,7 +144,7 @@ const Course: React.FC = () => {
     };
     return `${daysMap[schedule.days]} ${schedule.startTime} - ${schedule.endTime}`;
   };
-
+ const goToDashboard = () => navigate('/dashboard');
   return (
    <div className="course-container">
       <h1>Course Management</h1>
