@@ -82,7 +82,7 @@ const Course: React.FC = () => {
     }
     setCreateErrors({}); 
 
-    const res = await fetch('${BASE_URL}/courses', {
+    const res = await fetch(`${BASE_URL}/api/courses`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(newCourse),
@@ -102,7 +102,7 @@ const Course: React.FC = () => {
   };
 //method to delete courses
   const handleDelete = async (id: string) => {
-    await fetch(`${BASE_URL}/courses/${id}`, { method: 'DELETE' });
+    await fetch(`${BASE_URL}/api/courses/${id}`, { method: 'DELETE' });
     await fetchCourses();
   };
 //method to update courses
@@ -130,7 +130,7 @@ const Course: React.FC = () => {
       }
     };
 
-    const res = await fetch(`${BASE_URL}/courses/${formData.id}`, {
+    const res = await fetch(`${BASE_URL}/api/courses/${formData.id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(updateDto),
