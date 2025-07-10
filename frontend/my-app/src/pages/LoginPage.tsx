@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../login.css';
 import { BASE_URL } from '../api';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
 
 interface LoginPageProps {
   setIsLoggedIn: (value: boolean) => void;
@@ -47,7 +49,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ setIsLoggedIn }) => {
 
   return (
     <div className="login-container">
-      <h2>Login</h2>
+  <h2><FontAwesomeIcon icon={faUser} /> Login</h2>
       <form onSubmit={handleLogin}>
         <input
           type="text"
