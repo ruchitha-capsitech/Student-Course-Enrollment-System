@@ -1,3 +1,112 @@
+.dashboard-container {
+  text-align: center;
+  margin-top: 50px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: white;
+}
+
+.dashboard-container nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+    padding-left:25%;
+  padding: 15px 40px;
+  background-color: #ffffff;
+  color: #2c3e50;
+  font-size: 28px;
+  box-shadow: 0 10px 16px rgba(0, 0, 0, 0.1);
+  font-weight: bold;
+}
+
+.dashboard-button-logout {
+  font-size: 18px;
+  background-color: #da1717;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.dashboard-button-logout:hover {
+  background-color: #52b929;
+}
+
+.icons {
+  margin: 30px auto;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.dashboard-buttons {
+  font-size: 20px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+      box-shadow: 0 10px 16px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-buttons:hover {
+  background-color: #2980b9;
+}
+
+.dashboard-content {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 40px;
+  margin: 40px auto;
+  padding: 20px;
+  max-width: 100%;
+  text-align: left;
+  background-color: #ffffff;
+  color: #2c3e50;
+  border-radius: 10px;
+ 
+}
+
+.dashboard-image img {
+  width: 300px;
+  height: auto;
+  border-radius: 10px;
+}
+
+.dashboard-text h2 {
+  font-size: 26px;
+  margin-bottom: 15px;
+  color: #c73396;
+}
+
+.dashboard-text h3 {
+  font-size: 22px;
+  margin-bottom: 10px;
+  color: #6319b8;
+    margin-left:10%;
+}
+
+.dashboard-text ul {
+  list-style: none;
+  padding-left: 0;
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+.dashboard-text ul li::before {
+  content: '✅ ';
+  margin-right: 5px;
+}
+
+.dashboard-container h1 {
+  color: #ec0f0f;
+  margin-top: 40px;
+}
+
 .search-student-box {
     margin-right: -3%;
   width: 70%;
@@ -267,113 +376,7 @@ margin-top: 30px;
 
 /* Dashboard.css */
 
-.dashboard-container {
-  text-align: center;
-  margin-top: 50px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: white;
-}
 
-.dashboard-container nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-    padding-left:25%;
-  padding: 15px 40px;
-  background-color: #ffffff;
-  color: #2c3e50;
-  font-size: 28px;
-  box-shadow: 0 10px 16px rgba(0, 0, 0, 0.1);
-  font-weight: bold;
-}
-
-.dashboard-button-logout {
-  font-size: 18px;
-  background-color: #da1717;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  padding: 10px 15px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.dashboard-button-logout:hover {
-  background-color: #52b929;
-}
-
-.icons {
-  margin: 30px auto;
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-}
-
-.dashboard-buttons {
-  font-size: 20px;
-  background-color: #3498db;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  padding: 12px 20px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-      box-shadow: 0 10px 16px rgba(0, 0, 0, 0.1);
-}
-
-.dashboard-buttons:hover {
-  background-color: #2980b9;
-}
-
-.dashboard-content {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 40px;
-  margin: 40px auto;
-  padding: 20px;
-  max-width: 100%;
-  text-align: left;
-  background-color: #ffffff;
-  color: #2c3e50;
-  border-radius: 10px;
- 
-}
-
-.dashboard-image img {
-  width: 300px;
-  height: auto;
-  border-radius: 10px;
-}
-
-.dashboard-text h2 {
-  font-size: 26px;
-  margin-bottom: 15px;
-  color: #c73396;
-}
-
-.dashboard-text h3 {
-  font-size: 22px;
-  margin-bottom: 10px;
-  color: #6319b8;
-}
-
-.dashboard-text ul {
-  list-style: none;
-  padding-left: 0;
-  font-size: 18px;
-  line-height: 1.6;
-}
-
-.dashboard-text ul li::before {
-  content: '✅ ';
-  margin-right: 5px;
-}
-
-.dashboard-container h1 {
-  color: #ec0f0f;
-  margin-top: 40px;
-}
 
  .dashboard-wrapper {
   display: flex;
