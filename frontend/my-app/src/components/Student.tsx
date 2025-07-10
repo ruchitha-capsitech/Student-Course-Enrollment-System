@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {
   Panel, PanelType, PrimaryButton, TextField, DetailsList, IColumn,
   IconButton, Stack, Dropdown, IDropdownOption, DatePicker, DayOfWeek
-} from '@fluentui/react-components';
+} from '@fluentui/react';
 import axios from 'axios';
 import { initializeIcons } from '@fluentui/font-icons-mdl2';
 import { useNavigate } from 'react-router-dom';
