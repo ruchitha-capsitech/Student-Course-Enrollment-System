@@ -317,6 +317,7 @@ margin-top: 30px;
   padding: 12px 20px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+      box-shadow: 0 10px 16px rgba(0, 0, 0, 0.1);
 }
 
 .dashboard-buttons:hover {
@@ -330,12 +331,12 @@ margin-top: 30px;
   gap: 40px;
   margin: 40px auto;
   padding: 20px;
-  max-width: 1000px;
+  max-width: 100%;
   text-align: left;
   background-color: #ffffff;
   color: #2c3e50;
   border-radius: 10px;
-  box-shadow: 0 10px 16px rgba(0, 0, 0, 0.1);
+ 
 }
 
 .dashboard-image img {
