@@ -267,53 +267,103 @@ margin-top: 30px;
 
 /* Dashboard.css */
 
-.dashboard-container {
+dashboard-container {
   text-align: center;
   margin-top: 50px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: white;
+  
 }
-
-.dashboard-container h1 {
-  margin-top: 5%;
-  margin-bottom: 10px;
+.dashboard-container .image{
+  align-items: left;
+  margin-left: 0%;
+}
+.dashboard-container nav {
+  /* margin-top: ; */
+  /* margin-bottom: 15px; */
+  padding-left: 35%;
+  align-items: right;
+  padding-bottom: 20px;
+  text-align: center;
   color: #2c3e50;
   font-size: 40px;
+   box-shadow: 0 10px 16px rgba(0, 0, 0, 0.1);
+   font-size: 40px;
+   font-style: bold;
 }
-
+.dashboard-container div{
+  max-height: 10%;
+}
+.dashboard-container h1{
+  text-align: center;
+  color: #ec0f0f;
+}
 .dashboard-buttons {
-  height: 20%;
-  margin-top: 16%;
-  margin-left: 10%;
-  padding: 40px 40px;
-  font-size: 40px;
+  max-height: 60%;
+  /* margin-top: 16%; */
+  padding-top: 0%;
+  margin-left: 8%;
+  padding: 10px 10px;
+  font-size: 25px;
   background-color: #3498db;
   color: white;
   border: none;
-  border-radius: 40px;
+  border-radius: 10px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
-
+.dashboard-container p{
+  text-align: center;
+  color:#2c3e50;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size:larger;
+}
+.dashboard-container p h2{
+  text-align: center;
+  color:#c73396;
+   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size:larger;
+  font-size: 30px;
+}
+.dashboard-container p h3{
+  text-align: center;
+  color:#6319b8;
+   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size:larger;
+  font-size: 20px;
+}
+.dashboard-container p h4{
+  margin-left: 35%;
+  text-align: left;
+  color:#129dd4;
+   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size:larger;
+  font-size: 20px;
+}
+.icons{
+  margin-top: 1%;
+   box-shadow: 0 10px 16px rgba(0, 0, 0, 0.1);
+}
 .dashboard-button:hover {
   background-color: #2980b9;
 } 
-.dashboard-button-logout{
-  height: 20%;
-  margin: 10px;
- padding: 45px 45px;
-  font-size: 40px;
+nav .dashboard-button-logout{
+   padding-bottom: 20px;
+ align-items: right;
+  padding-right: 0%;
+  margin-left: 50%;
+ padding: 15px 15px;
+  font-size: 20px;
   background-color: #da1717;
   color: white;
   border: none;
-  border-radius: 40px;
+  border-radius: 10px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 .dashboard-button-logout:hover {
   background-color: #52b929;
 } 
-
 
  .dashboard-wrapper {
   display: flex;
