@@ -278,10 +278,14 @@ dashboard-container {
   align-items: left;
   margin-left: 0%;
 }
+.dashboard-container .icons{
+ padding-left:20%;
+}
+    
 .dashboard-container nav {
   /* margin-top: ; */
   /* margin-bottom: 15px; */
-    margin-left:25%;
+  
   padding-left: 50%;
   align-items: right;
   padding-bottom: 20px;
