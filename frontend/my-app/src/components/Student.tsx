@@ -7,7 +7,7 @@ import axios from 'axios';
 import { initializeIcons } from '@fluentui/font-icons-mdl2';
 import { useNavigate } from 'react-router-dom';
 
-initializeIcons();
+initializeIcons();//
 
 export const BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://localhost:7172/api';
 
