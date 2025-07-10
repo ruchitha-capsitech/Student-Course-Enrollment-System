@@ -56,8 +56,9 @@ const Dashboard: React.FC<DashboardProps> = ({ setIsLoggedIn }) => {
             course scheduling, and performance tracking — all in one place.
           </p>
 
-          <h3>Key Features:</h3>
+         
           <ul>
+            <li> <h3>Key Features:</h3></li>
             <li>Enroll or Unenroll Students using Student Roll Number and Course Number.</li>
             <li>Track GPA for individual students based on academic performance.</li>
             <li>Mark and View Attendance per course per student.</li>
